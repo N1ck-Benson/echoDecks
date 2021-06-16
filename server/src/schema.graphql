@@ -5,7 +5,7 @@ type Query {
 type Mutation {
   post(
     lemmas: [String!]!
-    flashcards: [String!]!
+    flashcards: String!
     src: String!
     dst: String!
   ): Deck!
@@ -15,7 +15,7 @@ type Deck {
   id: Int!
   title: String!
   lemmas: [String!]!
-  flashcards: [String!]!
+  flashcards: String!
   src: String!
   dst: String!
   createdAt: String!
