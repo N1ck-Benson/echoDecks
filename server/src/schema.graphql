@@ -22,15 +22,3 @@ type Deck {
   hasFlashcards: Boolean!
   isLearned: Boolean!
 }
-
-type Flashcard {
-  id: Int!
-  example: String!
-  translation: String!
-  isLearned: Boolean!
-}
-
-input FlashcardsInput {
-  example: String!
-  translation: String!
-}
