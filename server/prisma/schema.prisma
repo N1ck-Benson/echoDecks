@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://nickbenson@localhost:5432/echodecks"
+  url      = "postgresql://nickbenson@localhost:5432/echodecks_web"
 }
 
 generator client {
