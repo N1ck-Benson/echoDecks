@@ -1,0 +1,36 @@
+type Query {
+  decks: [Deck!]!
+}
+
+type Mutation {
+  post(
+    lemmas: [String!]!
+    flashcards: [String!]!
+    src: String!
+    dst: String!
+  ): Deck!
+}
+
+type Deck {
+  id: Int!
+  title: String!
+  lemmas: [String!]!
+  flashcards: [String!]!
+  src: String!
+  dst: String!
+  createdAt: String!
+  hasFlashcards: Boolean!
+  isLearned: Boolean!
+}
+
+type Flashcard {
+  id: Int!
+  example: String!
+  translation: String!
+  isLearned: Boolean!
+}
+
+input FlashcardsInput {
+  example: String!
+  translation: String!
+}

@@ -1,0 +1,35 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://nickbenson@localhost:5432/echodecks"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Deck {
+  id Int @id @default(autoincrement())
+  title String @default("New deck")
+  lemmas String[]
+  flashcards Flashcard[]
+  src String
+  dst String
+  createdAt DateTime @default(now())
+  hasFlashcards Boolean @default(true)
+  isLearned Boolean @default(false)
+}
+
+model Flashcard {
+  id Int @id @default(autoincrement())
+  deck Deck @relation(fields: [deckId], references: [id])
+  deckId Int
+  example String
+  translation String
+  isLearned Boolean @default(false)
+}
+
+model FlashcardInput {
+  id Int @unique @default(autoincrement())
+  example String
+  translation String
+}
