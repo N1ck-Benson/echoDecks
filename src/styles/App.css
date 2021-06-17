@@ -1,0 +1,14 @@
+.app {
+  display: grid;
+  grid-template-rows: 10vh 90vh 6vh;
+  grid-template-columns: 100vw;
+}
+
+header,
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 5vw;
+  background-color: salmon;
+}
