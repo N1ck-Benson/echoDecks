@@ -4,10 +4,17 @@
   grid-template-columns: 100vw;
 }
 
-header,
-footer {
+header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-right: 5vw;
+  background-color: salmon;
+}
+
+footer {
+  display: flex;
+  justify-content: left;
   align-items: center;
   padding-right: 5vw;
   background-color: salmon;

@@ -15,9 +15,7 @@ function App() {
         <AddDeck path="add-deck" />
         <ViewDecks path="view-decks" />
       </Router>
-      <footer>
-        <span>Footer</span>
-      </footer>
+      <footer>&nbsp; © Nick Benson 2020</footer>
     </main>
   );
 }

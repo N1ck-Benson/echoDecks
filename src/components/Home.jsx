@@ -5,7 +5,7 @@ import "../styles/Home.css";
 function Home() {
   return (
     <main>
-      <section>
+      <section className="welcome-section">
         <Typography variant="h6" className="welcome-heading">
           Welcome to echoDecks!
           <br />
@@ -23,12 +23,14 @@ function Home() {
         </div>
       </section>
       <Divider className="Divider" />
-      <Typography variant="h6" className="explainer-heading">
-        How does it work?
-      </Typography>
-      <Typography variant="body2" className="explainer-heading">
-        Explainer...
-      </Typography>
+      <section className="explainer-section">
+        <Typography variant="h6" className="explainer-heading">
+          How does it work?
+        </Typography>
+        <Typography variant="body2" className="explainer-text">
+          Explainer...
+        </Typography>
+      </section>
     </main>
   );
 }
