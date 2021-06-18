@@ -40,7 +40,8 @@ const AddDeck = () => {
   };
 
   const handleChange = ({ target }) => {
-    const { id, value } = target;
+    const { value } = target;
+    const id = parseInt(target.id);
     const updatedLemmas = lemmas;
     updatedLemmas[id].lemma = value;
     if (updatedLemmas[id].isLastLemma) {
@@ -54,6 +55,7 @@ const AddDeck = () => {
       };
       updatedLemmas.push(blankLemma);
     }
+    console.log(updatedLemmas, "<<< updatedLemmas");
     setLemmas(updatedLemmas);
   };
 
@@ -83,7 +85,7 @@ const AddDeck = () => {
             return (
               <div className="lemma-input" key={index}>
                 <TextField
-                  id={index}
+                  id={index.toString()}
                   label={`Lemma #${index + 1}`}
                   variant="outlined"
                   color="secondary"
