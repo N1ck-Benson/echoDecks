@@ -10,11 +10,13 @@ function App() {
   return (
     <main className="app">
       <Header className="header-component" />
-      <Router>
-        <Home path="/" />
-        <AddDeck path="add-deck" />
-        <ViewDecks path="view-decks" />
-      </Router>
+      <section className="page-content">
+        <Router>
+          <Home path="/" />
+          <AddDeck path="add-deck" />
+          <ViewDecks path="view-decks" />
+        </Router>
+      </section>
       <footer>&nbsp; © Nick Benson 2020</footer>
     </main>
   );

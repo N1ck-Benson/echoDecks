@@ -12,6 +12,11 @@ header {
   background-color: salmon;
 }
 
+.page-content {
+  display: grid;
+  justify-content: center;
+}
+
 footer {
   display: flex;
   justify-content: left;
