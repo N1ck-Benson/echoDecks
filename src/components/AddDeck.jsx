@@ -4,7 +4,10 @@ import {
   Button,
   Paper,
   TextField,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
+import { LanguageSharp } from "@material-ui/icons";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import { Link } from "@reach/router";
 import { useEffect } from "react";
@@ -31,15 +34,41 @@ const AddDeck = () => {
     ];
   };
 
-  const [open, setOpen] = useState(false);
+  const [helperOpen, setHelperOpen] = useState(false);
   const [lemmas, setLemmas] = useState(buildLemmaList());
   const [lemmasReady, setLemmasReady] = useState(false);
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const [language, setLanguage] = useState("");
   const [lingueeData, setLingueeData] = useState([]);
   const [deckName, setDeckName] = useState("New Deck");
 
-  const openHelper = () => {
-    setOpen(!open);
-  };
+  const languages = [
+    "Bulgarian",
+    "Czech",
+    "Danish",
+    "German",
+    "Greek",
+    "English",
+    "Spanish",
+    "Estonian",
+    "Finnish",
+    "French",
+    "Hungarian",
+    "Italian",
+    "Japan",
+    "Lithuanian",
+    "Latvian",
+    "Maltese",
+    "Dutch",
+    "Polish",
+    "Portuguese",
+    "Romanian",
+    "Russian",
+    "Slovak",
+    "Solvene",
+    "Swedish",
+    "Chinese",
+  ];
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -62,7 +91,6 @@ const AddDeck = () => {
   };
 
   const checkLemmas = () => {
-    // opens a dialog box -> selection src and dst
     // hits the linguee API with an api function
     // for each item in lemmas, using the lemma value.
     // each time, sets checking to true ->
@@ -72,6 +100,10 @@ const AddDeck = () => {
     // depending on response.
     // valid status sets a tick or edit/delete buttons
   };
+
+  const selectSrc = () => {};
+
+  const selectDst = () => {};
 
   useEffect(() => {
     if (
@@ -83,7 +115,7 @@ const AddDeck = () => {
     } else {
       setLemmasReady(false);
     }
-  });
+  }, []);
 
   const buildDeck = () => {};
 
@@ -93,13 +125,18 @@ const AddDeck = () => {
         Add your lemmas...
       </Typography>
       <section className="helper-section">
-        <Button onClick={openHelper} className="helper-button">
+        <Button
+          onClick={() => {
+            setHelperOpen(!helperOpen);
+          }}
+          className="helper-button"
+        >
           <Typography className="helper-heading">
             <EmojiObjectsOutlinedIcon />
             &nbsp; what's a lemma?
           </Typography>
         </Button>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={helperOpen} timeout="auto" unmountOnExit>
           <Typography variant="body2" className="helper-text">
             Lemmas are how words are listed in a dictionary. <br /> "We are
             learning flashcards" has the lemmas "we", "be", "learn" and
@@ -108,7 +145,37 @@ const AddDeck = () => {
         </Collapse>
       </section>
       <section className="lemmas-section">
-        <Paper className="lemma-inputs">
+        <div hidden={false} className="language-selector">
+          <Typography variant="body2">Choose your languages:</Typography>
+          <Select
+            variant="outlined"
+            value={language}
+            onChange={selectSrc}
+            label="Source language"
+          >
+            {languages.map((language, index) => {
+              <MenuItem key={index.toString()} value={language}>
+                {language}
+              </MenuItem>;
+            })}
+          </Select>
+          <Select
+            variant="outlined"
+            value={language}
+            onChange={selectDst}
+            label="Destination language"
+          >
+            {languages.map((language, index) => {
+              <MenuItem key={index.toString()} value={language}>
+                {language}
+              </MenuItem>;
+            })}
+          </Select>
+          <Button onClick={checkLemmas} variant="contained" color="primary">
+            Continue
+          </Button>
+        </div>
+        <Paper elevation={2} className="lemma-inputs">
           {lemmas.map((lemma, index) => {
             return (
               <div className="lemma-input" key={index}>
@@ -134,7 +201,9 @@ const AddDeck = () => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={checkLemmas}
+              onClick={() => {
+                setSelectorOpen(true);
+              }}
             >
               Check
             </Button>

@@ -72,3 +72,15 @@ main {
   text-decoration: none;
   color: inherit;
 }
+
+.language-selector {
+  position: fixed;
+  z-index: 1;
+  width: 80vw;
+  height: auto;
+  background-color: #3f51b5;
+  color: white;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
