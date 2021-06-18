@@ -6,6 +6,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
+import { Link } from "@reach/router";
+import { useEffect } from "react";
 import { useState } from "react";
 import "../styles/AddDeck.css";
 
@@ -31,9 +33,9 @@ const AddDeck = () => {
 
   const [open, setOpen] = useState(false);
   const [lemmas, setLemmas] = useState(buildLemmaList());
+  const [lemmasReady, setLemmasReady] = useState(false);
   const [lingueeData, setLingueeData] = useState([]);
-
-  console.log(lemmas);
+  const [deckName, setDeckName] = useState("New Deck");
 
   const openHelper = () => {
     setOpen(!open);
@@ -58,6 +60,32 @@ const AddDeck = () => {
     console.log(updatedLemmas, "<<< updatedLemmas");
     setLemmas(updatedLemmas);
   };
+
+  const checkLemmas = () => {
+    // opens a dialog box -> selection src and dst
+    // hits the linguee API with an api function
+    // for each item in lemmas, using the lemma value.
+    // each time, sets checking to true ->
+    // this triggers a spinner in the input
+    // on response, sets checking to false,
+    // checked to true, and valid to true or false,
+    // depending on response.
+    // valid status sets a tick or edit/delete buttons
+  };
+
+  useEffect(() => {
+    if (
+      lemmas.every((lemma) => {
+        return lemma.isValid;
+      })
+    ) {
+      setLemmasReady(true);
+    } else {
+      setLemmasReady(false);
+    }
+  });
+
+  const buildDeck = () => {};
 
   return (
     <main>
@@ -95,6 +123,34 @@ const AddDeck = () => {
             );
           })}
         </Paper>
+        {!lemmasReady ? (
+          <div className="button-group">
+            <Button size="small" variant="outlined" color="secondary">
+              <Link to="/" className="Link">
+                Cancel
+              </Link>
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={checkLemmas}
+            >
+              Check
+            </Button>
+          </div>
+        ) : (
+          <div className="button-group">
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={buildDeck}
+            >
+              Go!
+            </Button>
+          </div>
+        )}
       </section>
     </main>
   );
