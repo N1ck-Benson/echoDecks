@@ -4,14 +4,12 @@ import {
   Button,
   Paper,
   TextField,
-  Select,
-  MenuItem,
 } from "@material-ui/core";
-import { LanguageSharp } from "@material-ui/icons";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import { Link } from "@reach/router";
 import { useEffect } from "react";
 import { useState } from "react";
+import Options from "./Options";
 import "../styles/AddDeck.css";
 
 const AddDeck = () => {
@@ -37,38 +35,10 @@ const AddDeck = () => {
   const [helperOpen, setHelperOpen] = useState(false);
   const [lemmas, setLemmas] = useState(buildLemmaList());
   const [lemmasReady, setLemmasReady] = useState(false);
-  const [selectorOpen, setSelectorOpen] = useState(false);
-  const [language, setLanguage] = useState("");
+  const [optionsOpen, setOptionsOpen] = useState(true);
+  const [languages, setLanguages] = useState(null);
   const [lingueeData, setLingueeData] = useState([]);
   const [deckName, setDeckName] = useState("New Deck");
-
-  const languages = [
-    "Bulgarian",
-    "Czech",
-    "Danish",
-    "German",
-    "Greek",
-    "English",
-    "Spanish",
-    "Estonian",
-    "Finnish",
-    "French",
-    "Hungarian",
-    "Italian",
-    "Japan",
-    "Lithuanian",
-    "Latvian",
-    "Maltese",
-    "Dutch",
-    "Polish",
-    "Portuguese",
-    "Romanian",
-    "Russian",
-    "Slovak",
-    "Solvene",
-    "Swedish",
-    "Chinese",
-  ];
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -101,10 +71,6 @@ const AddDeck = () => {
     // valid status sets a tick or edit/delete buttons
   };
 
-  const selectSrc = () => {};
-
-  const selectDst = () => {};
-
   useEffect(() => {
     if (
       lemmas.every((lemma) => {
@@ -115,9 +81,24 @@ const AddDeck = () => {
     } else {
       setLemmasReady(false);
     }
-  }, []);
+  }, [lemmas]);
 
   const buildDeck = () => {};
+
+  if (optionsOpen) {
+    return (
+      <main>
+        <section className="lemmas-section">
+          <Options
+            deckName={deckName}
+            setDeckName={setDeckName}
+            setLanguages={setLanguages}
+            setOptionsOpen={setOptionsOpen}
+          />
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main>
@@ -145,36 +126,6 @@ const AddDeck = () => {
         </Collapse>
       </section>
       <section className="lemmas-section">
-        <div hidden={false} className="language-selector">
-          <Typography variant="body2">Choose your languages:</Typography>
-          <Select
-            variant="outlined"
-            value={language}
-            onChange={selectSrc}
-            label="Source language"
-          >
-            {languages.map((language, index) => {
-              <MenuItem key={index.toString()} value={language}>
-                {language}
-              </MenuItem>;
-            })}
-          </Select>
-          <Select
-            variant="outlined"
-            value={language}
-            onChange={selectDst}
-            label="Destination language"
-          >
-            {languages.map((language, index) => {
-              <MenuItem key={index.toString()} value={language}>
-                {language}
-              </MenuItem>;
-            })}
-          </Select>
-          <Button onClick={checkLemmas} variant="contained" color="primary">
-            Continue
-          </Button>
-        </div>
         <Paper elevation={2} className="lemma-inputs">
           {lemmas.map((lemma, index) => {
             return (
@@ -201,9 +152,8 @@ const AddDeck = () => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={() => {
-                setSelectorOpen(true);
-              }}
+              className="Button"
+              onClick={checkLemmas}
             >
               Check
             </Button>
