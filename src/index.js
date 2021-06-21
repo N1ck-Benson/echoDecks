@@ -14,7 +14,7 @@ import {
 // with the echoDecks API; server uri should be
 // that of the API
 const httpLink = createHttpLink({
-  uri: "http://localhost: 4000",
+  uri: "http://localhost:4000",
 });
 
 const client = new ApolloClient({

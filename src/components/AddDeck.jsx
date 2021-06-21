@@ -8,13 +8,14 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
+import { CheckCircle, HighlightOff } from "@material-ui/icons";
 import { Link } from "@reach/router";
 import { useEffect } from "react";
 import { useState } from "react";
 import Options from "./Options";
 import getExamples from "../linguee-api";
 import "../styles/AddDeck.css";
-import { CheckCircle, HighlightOff } from "@material-ui/icons";
+import { gql, useMutation } from "@apollo/client";
 
 const AddDeck = () => {
   const buildLemmaList = () => {
@@ -43,6 +44,22 @@ const AddDeck = () => {
   const [helperOpen, setHelperOpen] = useState(false);
   const [examples, setExamples] = useState([]);
   const [lemmasReady, setLemmasReady] = useState(false);
+  const lemmasToPost = lemmas.map((lemma) => {
+    return lemma.lemma;
+  });
+  const examplesToPost = JSON.stringify(examples);
+  const POST_DECK_MUTATION = gql`
+    mutation PostDeck(
+      $lemmas: [String!]!
+      $flashcards: String!
+      $src: String!
+      $dst: String!
+    ) {
+      post(lemmas: $lemmas, flashcards: $flashcards, src: $src, dst: $dst) {
+        id
+      }
+    }
+  `;
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -80,11 +97,11 @@ const AddDeck = () => {
         setLemmas(updatedLemmas);
         const searchTerm = lemma.lemma;
         getExamples(searchTerm, languages).then((res) => {
-          const updatedExamples = examples.push({
+          const updatedExamples = examples;
+          updatedExamples.push({
             lemma: searchTerm,
             content: res,
           });
-          console.log(examples, "examples");
           setExamples(updatedExamples);
           const updatedLemmas = lemmas;
           updatedLemmas[index].isChecking = false;
@@ -109,7 +126,14 @@ const AddDeck = () => {
     }
   }, [lemmas]);
 
-  const buildDeck = () => {};
+  const [postDeck] = useMutation(POST_DECK_MUTATION, {
+    variables: {
+      lemmas: lemmasToPost,
+      flashcards: examplesToPost,
+      src: languages.src,
+      dst: languages.dst,
+    },
+  });
 
   if (optionsOpen) {
     return (
@@ -208,7 +232,7 @@ const AddDeck = () => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={buildDeck}
+              onClick={postDeck}
             >
               Go!
             </Button>
