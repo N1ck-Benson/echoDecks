@@ -4,6 +4,8 @@ import {
   Button,
   Paper,
   TextField,
+  InputAdornment,
+  CircularProgress,
 } from "@material-ui/core";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import { Link } from "@reach/router";
@@ -12,6 +14,7 @@ import { useState } from "react";
 import Options from "./Options";
 import getExamples from "../linguee-api";
 import "../styles/AddDeck.css";
+import { CheckCircle, HighlightOff } from "@material-ui/icons";
 
 const AddDeck = () => {
   const buildLemmaList = () => {
@@ -71,6 +74,7 @@ const AddDeck = () => {
     );
     lemmas.forEach((lemma, index) => {
       if (!lemma.isLastLemma) {
+        console.log(`checking ${lemma.lemma}`);
         const updatedLemmas = lemmas;
         updatedLemmas[index].isChecking = true;
         setLemmas(updatedLemmas);
@@ -80,11 +84,13 @@ const AddDeck = () => {
             lemma: searchTerm,
             content: res,
           });
+          console.log(examples, "examples");
           setExamples(updatedExamples);
           const updatedLemmas = lemmas;
           updatedLemmas[index].isChecking = false;
           updatedLemmas[index].isChecked = true;
           updatedLemmas[index].isValid = typeof res === "string" ? false : true;
+          console.log(`finished checking ${lemma.lemma}`);
           setLemmas(updatedLemmas);
         });
       }
@@ -148,6 +154,17 @@ const AddDeck = () => {
       <section className="lemmas-section">
         <Paper elevation={2} className="lemma-inputs">
           {lemmas.map((lemma, index) => {
+            let inputAdornments = "";
+            if (lemma.isChecking) {
+              inputAdornments = <CircularProgress color="primary" />;
+            }
+            if (lemma.isChecked && lemma.isValid) {
+              inputAdornments = <CheckCircle color="primary" />;
+            }
+            if (lemma.isChecked && !lemma.isValid) {
+              inputAdornments = <HighlightOff color="secondary" />;
+            }
+
             return (
               <div className="lemma-input" key={index}>
                 <TextField
@@ -155,6 +172,13 @@ const AddDeck = () => {
                   label={`Lemma #${index + 1}`}
                   variant="outlined"
                   color="secondary"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {inputAdornments}
+                      </InputAdornment>
+                    ),
+                  }}
                   onChange={handleChange}
                 />
               </div>
