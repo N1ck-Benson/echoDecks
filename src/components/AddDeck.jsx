@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import { CheckCircle, HighlightOff } from "@material-ui/icons";
-import { Link } from "@reach/router";
+import { Link, useNavigate } from "@reach/router";
 import { useEffect } from "react";
 import { useState } from "react";
 import Options from "./Options";
@@ -48,6 +48,7 @@ const AddDeck = () => {
     return lemma.lemma;
   });
   const examplesToPost = JSON.stringify(examples);
+  const navigate = useNavigate();
   const POST_DECK_MUTATION = gql`
     mutation PostDeck(
       $lemmas: [String!]!
@@ -134,6 +135,12 @@ const AddDeck = () => {
       dst: languages.dst,
     },
   });
+
+  const buildAndPost = () => {
+    postDeck().then(() => {
+      navigate("/view-decks");
+    });
+  };
 
   if (optionsOpen) {
     return (
@@ -232,9 +239,9 @@ const AddDeck = () => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={postDeck}
+              onClick={buildAndPost}
             >
-              Go!
+              Go !
             </Button>
           </div>
         )}
