@@ -17,7 +17,7 @@ function App() {
           <ViewDecks path="view-decks" />
         </Router>
       </section>
-      <footer>&nbsp; © Nick Benson 2020</footer>
+      <footer>&nbsp; © Nick Benson 2021</footer>
     </main>
   );
 }

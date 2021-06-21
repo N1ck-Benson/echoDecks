@@ -67,8 +67,8 @@ function Options(props) {
 
   const { deckName, setDeckName, setLanguages, setOptionsOpen } = props;
 
-  const [src, setSrc] = useState(null);
-  const [dst, setDst] = useState(null);
+  const [src, setSrc] = useState("Spanish");
+  const [dst, setDst] = useState("English");
 
   const updateLanguages = () => {
     const chosenLanguages = {
@@ -93,7 +93,7 @@ function Options(props) {
       />
       <Typography variant="body2">Translate my cards from:</Typography>
       <Select
-        value="Spanish"
+        value={src}
         onChange={(event) => {
           setSrc(event.target.value);
         }}
@@ -109,7 +109,7 @@ function Options(props) {
       </Select>
       <Typography variant="body2">To:</Typography>
       <Select
-        value="English"
+        value={dst}
         onChange={(event) => {
           setDst(event.target.value);
         }}

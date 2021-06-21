@@ -10,6 +10,7 @@ import { Link } from "@reach/router";
 import { useEffect } from "react";
 import { useState } from "react";
 import Options from "./Options";
+import getExamples from "../linguee-api";
 import "../styles/AddDeck.css";
 
 const AddDeck = () => {
@@ -32,13 +33,13 @@ const AddDeck = () => {
     ];
   };
 
-  const [helperOpen, setHelperOpen] = useState(false);
   const [lemmas, setLemmas] = useState(buildLemmaList());
-  const [lemmasReady, setLemmasReady] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(true);
-  const [languages, setLanguages] = useState(null);
-  const [lingueeData, setLingueeData] = useState([]);
   const [deckName, setDeckName] = useState("New Deck");
+  const [languages, setLanguages] = useState({ src: "es", dst: "en" });
+  const [helperOpen, setHelperOpen] = useState(false);
+  const [examples, setExamples] = useState([]);
+  const [lemmasReady, setLemmasReady] = useState(false);
 
   const handleChange = ({ target }) => {
     const { value } = target;
@@ -56,25 +57,44 @@ const AddDeck = () => {
       };
       updatedLemmas.push(blankLemma);
     }
-    console.log(updatedLemmas, "<<< updatedLemmas");
     setLemmas(updatedLemmas);
   };
 
   const checkLemmas = () => {
-    // hits the linguee API with an api function
-    // for each item in lemmas, using the lemma value.
-    // each time, sets checking to true ->
-    // this triggers a spinner in the input
-    // on response, sets checking to false,
-    // checked to true, and valid to true or false,
-    // depending on response.
-    // valid status sets a tick or edit/delete buttons
+    console.log(
+      "lemmas: ",
+      lemmas,
+      "languages: ",
+      languages,
+      "deckName: ",
+      deckName
+    );
+    lemmas.forEach((lemma, index) => {
+      if (!lemma.isLastLemma) {
+        const updatedLemmas = lemmas;
+        updatedLemmas[index].isChecking = true;
+        setLemmas(updatedLemmas);
+        const searchTerm = lemma.lemma;
+        getExamples(searchTerm, languages).then((res) => {
+          const updatedExamples = examples.push({
+            lemma: searchTerm,
+            content: res,
+          });
+          setExamples(updatedExamples);
+          const updatedLemmas = lemmas;
+          updatedLemmas[index].isChecking = false;
+          updatedLemmas[index].isChecked = true;
+          updatedLemmas[index].isValid = typeof res === "string" ? false : true;
+          setLemmas(updatedLemmas);
+        });
+      }
+    });
   };
 
   useEffect(() => {
     if (
       lemmas.every((lemma) => {
-        return lemma.isValid;
+        return lemma.isValid || lemma.isLastLemma;
       })
     ) {
       setLemmasReady(true);
@@ -103,7 +123,7 @@ const AddDeck = () => {
   return (
     <main>
       <Typography variant="h6" className="add-decks-heading">
-        Add your lemmas...
+        Add your vocab...
       </Typography>
       <section className="helper-section">
         <Button
@@ -112,10 +132,10 @@ const AddDeck = () => {
           }}
           className="helper-button"
         >
-          <Typography className="helper-heading">
+          <p className="helper-heading">
             <EmojiObjectsOutlinedIcon />
-            &nbsp; what's a lemma?
-          </Typography>
+            &nbsp; Lemmas are recommended
+          </p>
         </Button>
         <Collapse in={helperOpen} timeout="auto" unmountOnExit>
           <Typography variant="body2" className="helper-text">
