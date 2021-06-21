@@ -1,6 +1,5 @@
 const { ApolloServer } = require("apollo-server");
 const { PrismaClient } = require("@prisma/client");
-const { flashcardBuilder } = require("./utils");
 const fs = require("fs");
 const path = require("path");
 
@@ -17,21 +16,10 @@ const resolvers = {
   Mutation: {
     // Create a new deck
     post: async (parent, args, context) => {
-      // dummy lingueeData -> hit linguee api client-side
-      const lingueeData = [
-        {
-          text: "bacalhau desfiado",
-          pos: "m",
-          audio_links: null,
-          translations: [{ text: "shredded cod", pos: "noun" }],
-        },
-      ];
-      const newFlashcards = flashcardBuilder(lingueeData);
-      const jsonFlashcards = JSON.stringify(newFlashcards);
       const newDeck = context.prisma.deck.create({
         data: {
           lemmas: args.lemmas,
-          flashcards: jsonFlashcards,
+          flashcards: args.flashcards,
           src: args.src,
           dst: args.dst,
         },
