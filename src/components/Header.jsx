@@ -21,7 +21,6 @@ function Header() {
         <ListRoundedIcon />
       </Button>
       <Menu
-        id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}

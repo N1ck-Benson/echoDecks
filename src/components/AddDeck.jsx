@@ -40,6 +40,9 @@ const AddDeck = () => {
   const [lemmas, setLemmas] = useState(buildLemmaList());
   const [optionsOpen, setOptionsOpen] = useState(true);
   const [deckName, setDeckName] = useState("New Deck");
+  // ___________________
+  console.log("deck name: ", deckName);
+  // ___________________
   const [languages, setLanguages] = useState({ src: "es", dst: "en" });
   const [helperOpen, setHelperOpen] = useState(false);
   const [examples, setExamples] = useState([]);
@@ -241,7 +244,7 @@ const AddDeck = () => {
               color="primary"
               onClick={buildAndPost}
             >
-              Go !
+              Go!
             </Button>
           </div>
         )}
