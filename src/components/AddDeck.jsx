@@ -40,9 +40,6 @@ const AddDeck = () => {
   const [lemmas, setLemmas] = useState(buildLemmaList());
   const [optionsOpen, setOptionsOpen] = useState(true);
   const [deckName, setDeckName] = useState("New Deck");
-  // ___________________
-  console.log("deck name: ", deckName);
-  // ___________________
   const [languages, setLanguages] = useState({ src: "es", dst: "en" });
   const [helperOpen, setHelperOpen] = useState(false);
   const [examples, setExamples] = useState([]);
@@ -101,9 +98,15 @@ const AddDeck = () => {
         setLemmas(updatedLemmas);
         const searchTerm = lemma.lemma;
         getExamples(searchTerm, languages).then((res) => {
+          res.map((example) => {
+            const updatedExample = example;
+            updatedExample.isLearned = false;
+            return updatedExample;
+          });
           const updatedExamples = examples;
           updatedExamples.push({
             lemma: searchTerm,
+            lemmaIsLearned: false,
             content: res,
           });
           setExamples(updatedExamples);
@@ -147,7 +150,7 @@ const AddDeck = () => {
 
   if (optionsOpen) {
     return (
-      <main>
+      <main className="add-deck-main">
         <section className="lemmas-section">
           <Options
             deckName={deckName}
@@ -161,7 +164,7 @@ const AddDeck = () => {
   }
 
   return (
-    <main>
+    <main className="add-deck-main">
       <Typography variant="h6" className="add-decks-heading">
         Add your vocab...
       </Typography>

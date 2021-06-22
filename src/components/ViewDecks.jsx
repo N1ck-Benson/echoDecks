@@ -32,13 +32,10 @@ function ViewDecks() {
         src
         dst
         createdAt
-        hasFlashcards
         isLearned
       }
     }
   `;
-
-  console.log(decks);
 
   // const { loading, data } = useQuery(GET_DECKS_QUERY);
 
@@ -52,7 +49,7 @@ function ViewDecks() {
   if (isLoading) return <CircularProgress color="primary" />;
 
   return (
-    <main>
+    <main className="view-decks-main">
       <Typography variant="h6" className="view-decks-heading">
         My Decks
       </Typography>
@@ -60,6 +57,7 @@ function ViewDecks() {
         {decks.map((deck, index) => {
           return (
             <DeckListing
+              id={deck.id}
               title={deck.title}
               createdAt={deck.createdAt}
               src={deck.src}

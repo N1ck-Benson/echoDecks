@@ -1,4 +1,4 @@
-main {
+.home-main {
   grid-row: 2/3;
   display: grid;
   grid-template-rows: 40vh 5px auto;

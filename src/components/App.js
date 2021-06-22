@@ -4,6 +4,7 @@ import Home from "./Home";
 import Header from "./Header";
 import AddDeck from "./AddDeck";
 import ViewDecks from "./ViewDecks";
+import LearnDeck from "./LearnDeck";
 import { Router } from "@reach/router";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Home path="/" />
           <AddDeck path="add-deck" />
           <ViewDecks path="view-decks" />
+          <LearnDeck path="learn-deck/:deckId" />
         </Router>
       </section>
       <footer>&nbsp; © Nick Benson 2021</footer>

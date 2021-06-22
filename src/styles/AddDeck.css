@@ -1,4 +1,4 @@
-main {
+.add-deck-main {
   display: grid;
   grid-template-rows: auto auto 70vh;
   min-width: 250px;

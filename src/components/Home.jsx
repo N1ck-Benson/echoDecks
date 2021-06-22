@@ -4,7 +4,7 @@ import "../styles/Home.css";
 
 function Home() {
   return (
-    <main>
+    <main className="home-main">
       <section className="welcome-section">
         <Typography variant="h6" className="welcome-heading">
           Welcome to echoDecks!
