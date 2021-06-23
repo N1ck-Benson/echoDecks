@@ -23,17 +23,8 @@ const LearnDeck = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [deck, setDeck] = useState(dummyDeck);
   const [flashcards, setFlashcards] = useState(dummyDeck.flashcards);
-  const [lemmaIndex, setLemmaIndex] = useState(0);
-  const [cardIndex, setCardIndex] = useState(0);
+  const [cardsToLearn, setCardsToLearn] = useState(flashcards);
   const [isFlipped, setIsFlipped] = useState(false);
-  const totalCards = () => {
-    let total = 0;
-    flashcards.forEach((lemma) => {
-      total += lemma.content.length;
-    });
-    return total;
-  };
-  const [progress, setProgress] = useState(1);
   const GET_DECK_QUERY = gql`
     query getDeck {
       deck (id: ${props.id}) {
@@ -54,27 +45,29 @@ const LearnDeck = (props) => {
 
   const handleClick = (event) => {
     const { id } = event.target;
-    const updatedFlashcards = flashcards;
 
     if (id === "Show translation") {
       setIsFlipped(!isFlipped);
-    } else {
-      if (id === "Done") {
-        updatedFlashcards[lemmaIndex].content[cardIndex].isLearned = true;
-        setFlashcards(updatedFlashcards);
-      } else if (id === "All done") {
-        updatedFlashcards[lemmaIndex].lemmaIsLearned = true;
-        setFlashcards(updatedFlashcards);
-      }
+    }
 
-      const nextLemmaIndex = lemmaIndex + 1;
+    if (id === "Done") {
+      const updatedCards = cardsToLearn.filter(
+        (card) => card.src !== flashcards[0].src
+      );
+      setCardsToLearn(updatedCards);
+    }
 
-      if (nextLemmaIndex === flashcards.length) {
-        setLemmaIndex(0);
-        setCardIndex(cardIndex + 1);
-      } else {
-        setLemmaIndex(nextLemmaIndex);
-      }
+    if (id === "All done") {
+      const updatedCards = cardsToLearn.filter(
+        (card) => card.lemma !== flashcards[0].lemma
+      );
+      setCardsToLearn(updatedCards);
+    }
+
+    if (id === "Send to back") {
+      const updatedCards = cardsToLearn;
+      updatedCards.push(updatedCards.shift());
+      setCardsToLearn(updatedCards);
     }
   };
 
@@ -84,17 +77,26 @@ const LearnDeck = (props) => {
     <main className="learn-deck-main">
       <div className="learn-deck-heading">
         <Typography variant="h6">{deck.title}</Typography>
-        <p>{`${progress} / ${totalCards()}`}</p>
+        <aside className="progress">
+          <p>
+            {`${flashcards.length - cardsToLearn.length} / ${
+              flashcards.length
+            }`}
+            &nbsp;
+          </p>
+
+          <Done fontSize="small" color="primary" />
+        </aside>
       </div>
       <section className="cards-list">
         <div className="card-stack">
           <Paper className="top-card" elevation={3}>
             <Typography variant="h6" className="card-heading">
-              {flashcards[lemmaIndex].lemma}
+              {flashcards[0].lemma}
             </Typography>
             <Divider className="Divider" />
             <Typography variant="body1" className="card-text">
-              {flashcards[lemmaIndex].content[cardIndex].src}
+              {flashcards[0].src}
             </Typography>
           </Paper>
           <Paper className="middle-card" elevation={5}></Paper>
