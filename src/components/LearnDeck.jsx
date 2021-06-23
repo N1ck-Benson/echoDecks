@@ -55,11 +55,10 @@ const LearnDeck = (props) => {
   //   setDecks(data);
   // }, [loading, data]);
 
-  console.log("cardIndex: ", cardIndex);
-
   const handleClick = (event) => {
     const { id } = event.target;
     const updatedFlashcards = flashcards;
+
     if (id === "Show translation") {
       setIsFlipped(!isFlipped);
     } else {
@@ -70,27 +69,14 @@ const LearnDeck = (props) => {
         updatedFlashcards[lemmaIndex].lemmaIsLearned = true;
         setFlashcards(updatedFlashcards);
       }
+
       const nextLemmaIndex = lemmaIndex + 1;
-      if (nextLemmaIndex > flashcards.length) {
+
+      if (nextLemmaIndex === flashcards.length) {
         setLemmaIndex(0);
         setCardIndex(cardIndex + 1);
-      }
-    }
-
-    if (id === "Done") {
-      updatedFlashcards[lemmaIndex].content[cardIndex].isLearned = true;
-      setFlashcards(updatedFlashcards);
-      const nextLemmaIndex = lemmaIndex + 1;
-    } else if (id === "All done") {
-      updatedFlashcards[lemmaIndex].lemmaIsLearned = true;
-      setFlashcards(updatedFlashcards);
-    } else if (id === "Show translation") {
-      setIsFlipped(!isFlipped);
-    } else if (id === "Send to back") {
-      const nextLemmaIndex = lemmaIndex + 1;
-      if (nextLemmaIndex > flashcards.length) {
-        setLemmaIndex(0);
-        setCardIndex(lemmaIndex + 1);
+      } else {
+        setLemmaIndex(nextLemmaIndex);
       }
     }
   };

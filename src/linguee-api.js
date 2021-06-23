@@ -4,7 +4,6 @@ const getExamples = (lemma, languages) => {
   // Allow CORS extension in use in development
   // -> for production, a proxy server will be required to prevent CORS errors
   const baseUrl = "https://linguee-for-echodecks.herokuapp.com/api/v2/";
-  console.log(lemma);
   const lemmaForUrl = lemma.includes(" ") ? lemma : lemma.replace(/\s/g, "%20");
   const { src, dst } = languages;
   let url = baseUrl;
@@ -19,8 +18,10 @@ const getExamples = (lemma, languages) => {
     const examples = data.map((example) => {
       const { src, dst } = example;
       return {
+        lemma,
         src,
         dst,
+        isLearned: false,
       };
     });
     return examples;
