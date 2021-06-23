@@ -5,6 +5,21 @@
 }
 
 /* Within main */
+.deck-complete {
+  grid-row: 2;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin: 2vh 0 2vh 0;
+  width: 85vw;
+  height: 100%;
+}
+
+.Link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .learn-deck-heading {
   grid-row: 1/2;
   display: flex;

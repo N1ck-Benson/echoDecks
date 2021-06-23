@@ -6,6 +6,8 @@ import {
   Divider,
 } from "@material-ui/core";
 import { ChevronRight, Done, DoneAll, SwapHoriz } from "@material-ui/icons";
+import CheckCircleTwoToneIcon from "@material-ui/icons/CheckCircleTwoTone";
+import { Link } from "@reach/router";
 import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import "../styles/LearnDeck.css";
@@ -72,6 +74,22 @@ const LearnDeck = (props) => {
   };
 
   if (isLoading) return <CircularProgress color="primary" />;
+
+  if (!cardsToLearn.length) {
+    return (
+      <main className="learn-deck-main">
+        <section className="deck-complete">
+          <CheckCircleTwoToneIcon fontSize="large" color="primary" /> &nbsp;
+          <Typography variant="h4">Finished!</Typography>
+          <Typography variant="h6" color="primary">
+            <Link className="Link" to="/view-decks">
+              Back to decks
+            </Link>
+          </Typography>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="learn-deck-main">
