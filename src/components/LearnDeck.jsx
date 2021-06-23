@@ -92,11 +92,11 @@ const LearnDeck = (props) => {
         <div className="card-stack">
           <Paper className="top-card" elevation={3}>
             <Typography variant="h6" className="card-heading">
-              {flashcards[0].lemma}
+              {cardsToLearn[0].lemma}
             </Typography>
             <Divider className="Divider" />
             <Typography variant="body1" className="card-text">
-              {flashcards[0].src}
+              {cardsToLearn[0].src}
             </Typography>
           </Paper>
           <Paper className="middle-card" elevation={5}></Paper>
