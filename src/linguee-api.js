@@ -24,7 +24,8 @@ const getExamples = (lemma, languages) => {
         isLearned: false,
       };
     });
-    return examples;
+    const trimmedExamples = examples.slice(0, 4);
+    return trimmedExamples;
   });
 };
 
