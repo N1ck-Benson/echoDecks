@@ -47,7 +47,21 @@ const AddDeck = () => {
   const lemmasToPost = lemmas.map((lemma) => {
     return lemma.lemma;
   });
-  const examplesToPost = JSON.stringify(examples);
+
+  // Reorder the examples as follows:
+  // lemma.1a, lemma.2a, lemma.3a,
+  // lemma.1b, lemma.2b, lemma.3b, etc.
+  // Then stringify for posting to database.
+  const examplesToPost = () => {
+    const reorderedExamples = [];
+    lemmas.forEach((lemma, index) => {
+      examples.forEach((exampleArray) => {
+        reorderedExamples.push(exampleArray[index]);
+      });
+    });
+    return JSON.stringify(reorderedExamples);
+  };
+
   const navigate = useNavigate();
   const POST_DECK_MUTATION = gql`
     mutation PostDeck(
@@ -82,14 +96,6 @@ const AddDeck = () => {
   };
 
   const checkLemmas = () => {
-    console.log(
-      "lemmas: ",
-      lemmas,
-      "languages: ",
-      languages,
-      "deckName: ",
-      deckName
-    );
     lemmas.forEach((lemma, index) => {
       if (!lemma.isLastLemma) {
         console.log(`checking ${lemma.lemma}`);
@@ -98,17 +104,8 @@ const AddDeck = () => {
         setLemmas(updatedLemmas);
         const searchTerm = lemma.lemma;
         getExamples(searchTerm, languages).then((res) => {
-          res.map((example) => {
-            const updatedExample = example;
-            updatedExample.isLearned = false;
-            return updatedExample;
-          });
           const updatedExamples = examples;
-          updatedExamples.push({
-            lemma: searchTerm,
-            lemmaIsLearned: false,
-            content: res,
-          });
+          updatedExamples.push(res);
           setExamples(updatedExamples);
           const updatedLemmas = lemmas;
           updatedLemmas[index].isChecking = false;
@@ -136,7 +133,7 @@ const AddDeck = () => {
   const [postDeck] = useMutation(POST_DECK_MUTATION, {
     variables: {
       lemmas: lemmasToPost,
-      flashcards: examplesToPost,
+      flashcards: examplesToPost(),
       src: languages.src,
       dst: languages.dst,
     },
@@ -247,7 +244,7 @@ const AddDeck = () => {
               color="primary"
               onClick={buildAndPost}
             >
-              Go!
+              Go !
             </Button>
           </div>
         )}
