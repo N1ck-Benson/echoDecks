@@ -12,12 +12,21 @@ const resolvers = {
     decks: async (parent, args, context) => {
       return context.prisma.deck.findMany();
     },
+    // Get deck by id
+    deckById: async (parents, args, context) => {
+      return context.prisma.deck.findMany({
+        where: {
+          id: args.id,
+        },
+      });
+    },
   },
   Mutation: {
     // Create a new deck
     post: async (parent, args, context) => {
       const newDeck = context.prisma.deck.create({
         data: {
+          title: args.title,
           lemmas: args.lemmas,
           flashcards: args.flashcards,
           src: args.src,
@@ -25,6 +34,39 @@ const resolvers = {
         },
       });
       return newDeck;
+    },
+    // Mark isLearned as true or false for a deck
+    updateDeck: async (parents, args, context) => {
+      const updatedDeck = await context.prisma.deck.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          isLearned: args.isLearned,
+        },
+      });
+      return updatedDeck;
+    },
+    // Mark isLearned as true or false for an individual flashcard
+    updateFlashcards: async (parents, args, context) => {
+      const updatedFlashcards = await context.prisma.deck.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          flashcards: args.flashcards,
+        },
+      });
+      return updatedFlashcards;
+    },
+    // Delete a deck
+    delete: async (parents, args, context) => {
+      const deletedDeck = await context.prisma.deck.delete({
+        where: {
+          id: args.id,
+        },
+      });
+      return deletedDeck;
     },
   },
 };

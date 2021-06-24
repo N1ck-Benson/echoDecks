@@ -9,7 +9,7 @@ generator client {
 
 model Deck {
   id Int @id @default(autoincrement())
-  title String @default("New deck")
+  title String
   lemmas String[]
   flashcards String
   src String

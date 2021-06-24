@@ -1,14 +1,19 @@
 type Query {
   decks: [Deck!]!
+  deckById(id: Int!): [Deck!]!
 }
 
 type Mutation {
   post(
+    title: String!
     lemmas: [String!]!
     flashcards: String!
     src: String!
     dst: String!
   ): Deck!
+  updateDeck(id: Int!, isLearned: Boolean!): Deck!
+  updateFlashcards(id: Int!, flashcards: String!): Deck!
+  delete(id: Int!): Deck!
 }
 
 type Deck {
