@@ -103,6 +103,10 @@ const AddDeck = () => {
   };
 
   const checkLemmas = () => {
+    if (examples.length) {
+      console.log("Examples were cleared before re-checking");
+      setExamples([]);
+    }
     lemmas.forEach((lemma, index) => {
       if (!lemma.isLastLemma) {
         console.log(`checking ${lemma.lemma}`);
@@ -117,7 +121,7 @@ const AddDeck = () => {
           const updatedLemmas = lemmas;
           updatedLemmas[index].isChecking = false;
           updatedLemmas[index].isChecked = true;
-          updatedLemmas[index].isValid = typeof res === "string" ? false : true;
+          updatedLemmas[index].isValid = true;
           console.log(`finished checking ${lemma.lemma}`);
           setLemmas(updatedLemmas);
         });
@@ -135,7 +139,7 @@ const AddDeck = () => {
     } else {
       setLemmasReady(false);
     }
-  }, [lemmas]);
+  });
 
   const [postDeck] = useMutation(POST_DECK_MUTATION, {
     variables: {
@@ -252,7 +256,7 @@ const AddDeck = () => {
               color="primary"
               onClick={buildAndPost}
             >
-              Go !
+              Go!
             </Button>
           </div>
         )}

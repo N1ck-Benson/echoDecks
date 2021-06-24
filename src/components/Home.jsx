@@ -11,8 +11,8 @@ function Home() {
           <br />
         </Typography>
         <Typography variant="body1" className="welcome-text">
-          Hit start to begin generating flashcards and learning vocab more
-          effectively.
+          Hit start to begin learning vocab more effectively with
+          self-generating flashcards...
         </Typography>
         <div className="Button">
           <Link to="add-deck" className="Link">
@@ -27,9 +27,7 @@ function Home() {
         <Typography variant="h6" className="explainer-heading">
           How does it work?
         </Typography>
-        <Typography variant="body2" className="explainer-text">
-          Explainer...
-        </Typography>
+        <Typography variant="body2" className="explainer-text"></Typography>
       </section>
     </main>
   );

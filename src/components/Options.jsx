@@ -8,7 +8,6 @@ import {
 import { useState } from "react";
 
 function Options(props) {
-  // abstract these lists to their own file/s
   const languageList = [
     "Bulgarian",
     "Czech",
