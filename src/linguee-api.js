@@ -10,7 +10,8 @@ const getExamples = (lemma, languages) => {
   url += `external_sources?query=${lemmaForUrl}&src=${src}&dst=${dst}&guess_direction=false`;
 
   return axios.get(url).then(({ data, status }) => {
-    if (status === 500 || status === 244) {
+    const errorCodes = [500, 244, 400];
+    if (errorCodes.includes(status)) {
       return "Sorry, something went wrong";
     } else if (status === 244) {
       return data.detail.msg;

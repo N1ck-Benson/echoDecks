@@ -65,12 +65,19 @@ const AddDeck = () => {
   const navigate = useNavigate();
   const POST_DECK_MUTATION = gql`
     mutation PostDeck(
+      $title: String!
       $lemmas: [String!]!
       $flashcards: String!
       $src: String!
       $dst: String!
     ) {
-      post(lemmas: $lemmas, flashcards: $flashcards, src: $src, dst: $dst) {
+      post(
+        title: $title
+        lemmas: $lemmas
+        flashcards: $flashcards
+        src: $src
+        dst: $dst
+      ) {
         id
       }
     }
@@ -132,6 +139,7 @@ const AddDeck = () => {
 
   const [postDeck] = useMutation(POST_DECK_MUTATION, {
     variables: {
+      title: deckName,
       lemmas: lemmasToPost,
       flashcards: examplesToPost(),
       src: languages.src,
