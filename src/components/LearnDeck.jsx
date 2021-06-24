@@ -35,7 +35,9 @@ const LearnDeck = (props) => {
 
   useEffect(() => {
     if (!loading) {
-      const updatedFlashcards = JSON.parse(data.deckById[0].flashcards);
+      const updatedFlashcards = JSON.parse(data.deckById[0].flashcards).filter(
+        (card) => card !== null
+      );
       setIsLoading(false);
       setDeck(data.deckById[0]);
       setFlashcards(updatedFlashcards);
