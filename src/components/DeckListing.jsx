@@ -1,6 +1,8 @@
-import { Paper, MenuItem, Menu, Link, Button } from "@material-ui/core";
+import { Paper, MenuItem, Menu } from "@material-ui/core";
 import { CheckCircleOutline, MoreHoriz } from "@material-ui/icons";
 import { useState } from "react";
+import { Link } from "@reach/router";
+import "../styles/ViewDecks.css";
 
 const DeckListing = (props) => {
   const { id, title, createdAt, src, dst, isLearned } = props;
@@ -35,7 +37,7 @@ const DeckListing = (props) => {
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}>
-            <Link className="Link" to={`learn-deck/${Number.toString(id)}`}>
+            <Link className="Link" to={`/learn-deck/${id}`}>
               Learn Deck
             </Link>
           </MenuItem>

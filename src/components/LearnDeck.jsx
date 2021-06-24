@@ -13,23 +13,15 @@ import { gql, useQuery } from "@apollo/client";
 import "../styles/LearnDeck.css";
 
 const LearnDeck = (props) => {
-  const dummyDeck = {
-    id: 9,
-    title: "New deck",
-    lemmas: ["como", "hablar", ""],
-    flashcards: JSON.parse(
-      '[{"lemma":"tolerar","src":"Deseo reiterar aquí nuestra convicción de que no se puede [...] y no se debe tolerar el terrorismo [...] en modo alguno.","dst":"I wish here to reiterate our conviction that [...] there can and must be no tolerance for [...] terrorism.","isLearned":false},{"lemma":"sostener","src":"Se debe sostener que la vía diplomática [...] y las organizaciones regionales, son los canales legítimos para la discusión y análisis [...] de las agendas bilaterales y multilaterales entre nuestros países.","dst":"It should be stressed that diplomatic [...] means and regional organizations are the legitimate channels for discussion and analysis [...] of bilateral and multilateral agendas between our countries.","isLearned":false},{"lemma":"tolerar","src":"No hay nada que pueda tolerar o excusar la violación [...] de estos derechos.","dst":"Violation of these [...] rights cannot be tolerated or excused on any ground.","isLearned":false},{"lemma":"sostener","src":"En esta etapa, es importante sostener siempre de la mano [...] a un niño pequeño o en edad preescolar cuando hay autos cerca, [...] aunque esté en un camino de entrada.","dst":"At this age it is [...] more important to always hold a toddler [...] or preschooler\'s hand when they are near cars, even when you are only in a driveway.","isLearned":false},{"lemma":"tolerar","src":"Hubiera podido tolerar una cierta cantidad de palabrería hueca y de reiteración.","dst":"I would have been able to live with a certain amount of hot air and repetition.","isLearned":false},{"lemma":"sostener","src":"Los pagos a funcionarios públicos para fomentar y sostener un acceso monopolístico u oligopolístico a un mercado sin que haya una explicación económica suficiente para que [...] [...] se establezcan tales restricciones.","dst":"Illegal fees paid by parents to teachers or head teachers to get their children admitted to schools, to be promoted or to pass their exams are examples of petty corruption.","isLearned":false}]'
-    ),
-    isLearned: false,
-  };
-  const [isLoading, setIsLoading] = useState(false);
-  const [deck, setDeck] = useState(dummyDeck);
-  const [flashcards, setFlashcards] = useState(dummyDeck.flashcards);
-  const [cardsToLearn, setCardsToLearn] = useState(flashcards);
+  const idForReq = parseFloat(props.deckId);
+  const [isLoading, setIsLoading] = useState(true);
+  const [deck, setDeck] = useState(null);
+  const [flashcards, setFlashcards] = useState(null);
+  const [cardsToLearn, setCardsToLearn] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const GET_DECK_QUERY = gql`
     query getDeck {
-      deck (id: ${props.id}) {
+      deckById (id: ${idForReq}) {
         id
         title
         lemmas
@@ -38,12 +30,18 @@ const LearnDeck = (props) => {
       }
     }
   `;
-  // const { loading, data } = useQuery(GET_DECK_QUERY);
-  // !! remember to JSON.parse the flashcards key before doing setDecks
-  // useEffect(() => {
-  //   setIsLoading(loading);
-  //   setDecks(data);
-  // }, [loading, data]);
+
+  const { loading, data } = useQuery(GET_DECK_QUERY);
+
+  useEffect(() => {
+    if (!loading) {
+      const updatedFlashcards = JSON.parse(data.deckById[0].flashcards);
+      setIsLoading(false);
+      setDeck(data.deckById[0]);
+      setFlashcards(updatedFlashcards);
+      setCardsToLearn(updatedFlashcards);
+    }
+  }, [loading, data]);
 
   const handleClick = (event) => {
     const { id } = event.target;
@@ -114,7 +112,7 @@ const LearnDeck = (props) => {
             </Typography>
             <Divider className="Divider" />
             <Typography variant="body1" className="card-text">
-              {cardsToLearn[0].src}
+              {isFlipped ? cardsToLearn[0].dst : cardsToLearn[0].src}
             </Typography>
           </Paper>
           <Paper className="middle-card" elevation={5}></Paper>
