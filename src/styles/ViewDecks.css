@@ -20,6 +20,17 @@
   height: 100%;
 }
 
+.no-decks-list {
+  grid-row: 2/3;
+  display: grid;
+  justify-items: center;
+  align-content: space-evenly;
+  margin: 2vh 0 2vh 0;
+  width: 85vw;
+  height: 25%;
+  padding: 5vw;
+}
+
 /* Within decks-list */
 .card-stack {
   grid-template-rows: 8% 8% 8% 68% 8%;

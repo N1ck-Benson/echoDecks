@@ -1,7 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useState, useEffect } from "react";
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress, Typography, Button } from "@material-ui/core";
 import DeckListing from "./DeckListing";
+import { Link } from "@reach/router";
 import "../styles/ViewDecks.css";
 
 function ViewDecks() {
@@ -20,15 +21,13 @@ function ViewDecks() {
       isLearned: false,
     },
   ];
-  const [isLoading, setIsLoading] = useState(false);
-  const [decks, setDecks] = useState(dummyResults);
+  const [isLoading, setIsLoading] = useState(true);
+  const [decks, setDecks] = useState(null);
   const GET_DECKS_QUERY = gql`
     query getDecks {
       decks {
         id
         title
-        lemmas
-        flashcards
         src
         dst
         createdAt
@@ -37,14 +36,22 @@ function ViewDecks() {
     }
   `;
 
-  // const { loading, data } = useQuery(GET_DECKS_QUERY);
+  const { loading, data } = useQuery(GET_DECKS_QUERY);
 
-  // !! remember to JSON.parse the flashcards key before doing setDecks
-
-  // useEffect(() => {
-  //   setIsLoading(loading);
-  //   setDecks(data);
-  // }, [loading, data]);
+  useEffect(() => {
+    const newDecks = data.decks;
+    if (newDecks.length) {
+      const parsedDecks = newDecks.map((deck) => {
+        const output = deck;
+        output.flashcards = JSON.parse(output.flashcards);
+        return output;
+      });
+      setIsLoading(loading);
+      setDecks(parsedDecks);
+    } else {
+      setIsLoading(loading);
+    }
+  }, [loading, data]);
 
   if (isLoading) return <CircularProgress color="primary" />;
 
@@ -53,21 +60,34 @@ function ViewDecks() {
       <Typography variant="h6" className="view-decks-heading">
         My Decks
       </Typography>
-      <section className="decks-list">
-        {decks.map((deck, index) => {
-          return (
-            <DeckListing
-              id={deck.id}
-              title={deck.title}
-              createdAt={deck.createdAt}
-              src={deck.src}
-              dst={deck.dst}
-              isLearned={deck.isLearned}
-              key={index}
-            />
-          );
-        })}
-      </section>
+      {decks ? (
+        <section className="decks-list">
+          {decks.map((deck, index) => {
+            return (
+              <DeckListing
+                id={deck.id}
+                title={deck.title}
+                createdAt={deck.createdAt}
+                src={deck.src}
+                dst={deck.dst}
+                isLearned={deck.isLearned}
+                key={index}
+              />
+            );
+          })}
+        </section>
+      ) : (
+        <section className="no-decks-list">
+          <Typography variant="body2" color="primary">
+            No decks to show
+          </Typography>
+          <Button variant="contained" color="primary">
+            <Link to="/add-deck" className="Link">
+              Add deck
+            </Link>
+          </Button>
+        </section>
+      )}
     </main>
   );
 }
