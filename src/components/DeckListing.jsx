@@ -17,9 +17,10 @@ const DeckListing = (props) => {
   const deleteDeck = () => {
     console.log("User clicked 'delete deck'");
   };
+
   return (
-    <div className="card-stack">
-      <Paper className="top-card" elevation={3}>
+    <div className="view-card-stack">
+      <Paper className="view-top-card" elevation={3}>
         <p className="deck-title">
           {title}&nbsp;
           <CheckCircleOutline
@@ -53,9 +54,9 @@ const DeckListing = (props) => {
         </Menu>
         <p className="deck-date">{date}</p>
       </Paper>
-      <Paper className="middle-card" elevation={5}></Paper>
-      <Paper className="bottom-card" elevation={3}></Paper>
-      <span className="card-pocket"></span>
+      <Paper className="view-middle-card" elevation={5}></Paper>
+      <Paper className="view-bottom-card" elevation={3}></Paper>
+      <span className="view-card-pocket"></span>
     </div>
   );
 };

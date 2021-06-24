@@ -44,7 +44,7 @@ function ViewDecks() {
         My Decks
       </Typography>
       {decks ? (
-        <section className="decks-list">
+        <section className="view-decks-list">
           {decks.map((deck, index) => {
             return (
               <DeckListing
