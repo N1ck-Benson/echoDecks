@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+## Welcome to echoDecks!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+(currently under development)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+[What does it do?]()
 
-### `yarn start`
+[How does it work?]()
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[How do I run the code?]()
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### What does it do?
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- If you're learning another language, you might be memorising new words in the traditional way (word > definition >
+  repeat). If so, echoDecks is for you.
 
-### `yarn build`
+- We need to see a new word in different contexts to truly memorize
+  it... not just the word on it's own!
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Give echoDecks a list of foreign-language words you want to learn, and
+  the app will build a deck of flashcards for you
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- For every word, echoDecks will try to find you 4-5 **REAL WORLD** examples...
+  with translations!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### How does it work?
 
-### `yarn eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+echoDecks' ability to generate real-world examples and translations for your vocab lists is powered by [Linguee](https://www.linguee.com/), with the indispensable help of Roman Imankulov's [proxy api](https://github.com/imankulov/linguee-api).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Besides these APIs, the backend techstack is a postgreSQL database receiving GraphQL queries mediated by Apollo. The frontend is all React, and is styled using Material-UI components.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### How do I run the code?
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+The webapp is not deployed yet, so please do the following to get it running on your own machine:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Fork and/or clone this repo
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Make sure you have Node and Yarn installed
 
-### Code Splitting
+3. Install the dependencies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- In your terminal, navigate to `echodecks_web/src`, and run `yarn`
+- Navigate to `echodecks_web/server` and do the same
 
-### Analyzing the Bundle Size
+4. Still in `echodecks_web/server`, run `node src/index.js`. This will run the Apollo server on localhost:4000.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+5. Navigate back to `echodecks_web/src` and run `yarn start`. This will trigger an optimized development build of the app, running on localhost:3000.
 
-### Making a Progressive Web App
+6. **Important**: you'll need to download a CORS extension for your browser. I'd recommend [Allow CORS](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) for Chrome, or [CORS Everywhere](https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/) for Firefox. **In the extension's preferences, enable the extension either for all sites (not recommended) or specifically for the localhost port which is serving the React app (probably https://localhost:3000)**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This is a temporary fix for a problem with the backend, where CORS "access-control-allow-origin" errors are triggered by the proxy Linguee API under the hood. This will be fixed in later versions of the app!
