@@ -38,6 +38,8 @@
   grid-row: 3/4;
   display: grid;
   justify-items: left;
+  max-height: 30vh;
+  overflow: scroll;
 }
 
 .explainer-heading {
@@ -46,5 +48,5 @@
 
 .explainer-text {
   padding: 0 5vw 2vh 5vw;
-  text-align: center;
+  text-align: left;
 }

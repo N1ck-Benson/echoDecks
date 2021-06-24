@@ -14,7 +14,7 @@
 .view-decks-list {
   grid-row: 2/3;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   align-content: flex-start;
   margin: 2vh 0 2vh 0;
@@ -39,7 +39,8 @@
   grid-template-columns: 1% 2.5% 2.5% 87.5% 1.25% 1.25% 1%;
   display: grid;
   justify-content: center;
-  width: 100%;
+  min-width: 260px;
+  max-width: 260px;
   height: 25%;
   background-color: whitesmoke;
   border-radius: 4px;

@@ -42,7 +42,10 @@ function Header() {
           </Link>
         </MenuItem>
       </Menu>
-      <Typography variant="h6">echoDEcks</Typography>
+      <img
+        src="https://i.postimg.cc/fWtmFRb3/Screenshot-2021-06-24-at-17-03-05.png"
+        className="logo"
+      />
     </header>
   );
 }
