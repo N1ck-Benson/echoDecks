@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "15.x"
+  },
   "dependencies": {
     "@apollo/client": "^3.3.20",
     "@fontsource/roboto": "^4.4.5",
