@@ -4,6 +4,10 @@
 
 ---
 
+<img alt="echoDecks in action" src="https://i.postimg.cc/hjsrfMf3/Screenshot-2021-06-24-at-17-53-45.png" style="height: 300px; margin-left: 140px"/>
+
+---
+
 [What does it do?]()
 
 [How does it work?]()
@@ -37,6 +41,8 @@ Besides these APIs, the backend techstack is a postgreSQL database receiving Gra
 ### How do I run the code?
 
 ---
+
+**Unfortunately I'm having issues with the app which make it tricky for others to run the code successfully. I'm working on fixes, but in the meantime cloning this repo is not recommended...**
 
 The webapp is not deployed yet, so please do the following to get it running on your own machine:
 
