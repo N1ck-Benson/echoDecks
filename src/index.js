@@ -14,7 +14,7 @@ import {
 // with the echoDecks API; server uri should be
 // that of the API
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
+  uri: "https://echo-decks-web.herokuapp.com/",
 });
 
 const client = new ApolloClient({
