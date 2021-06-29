@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "@reach/router";
-import { Typography, Button, Menu, MenuItem } from "@material-ui/core";
+import { Button, Menu, MenuItem } from "@material-ui/core";
 import ListRoundedIcon from "@material-ui/icons/ListRounded";
 import "../styles/Header.css";
 
+// Header component wraps all other components
 function Header() {
+  // Setup for collapsable menu (all screen-sizes)
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {

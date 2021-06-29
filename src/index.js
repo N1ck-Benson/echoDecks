@@ -12,7 +12,7 @@ import {
 
 // httpLink connects the ApolloClient instance
 // with the echoDecks API; server uri should be
-// that of the API
+// that of the API, and can be made dynamic for production purposes
 const httpLink = createHttpLink({
   uri: "http://localhost:4000",
 });

@@ -8,6 +8,8 @@ import "../styles/ViewDecks.css";
 function ViewDecks() {
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState(null);
+
+  // GraphQL schema.
   const GET_DECKS_QUERY = gql`
     query getDecks {
       decks {
@@ -24,6 +26,7 @@ function ViewDecks() {
 
   const { loading, data } = useQuery(GET_DECKS_QUERY);
 
+  // Should only load decks once, but dependency array allows for updates.
   useEffect(() => {
     if (!loading) {
       const updatedDecks = data.decks.map((deck) => {

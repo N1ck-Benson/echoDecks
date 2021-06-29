@@ -1,3 +1,6 @@
+// Datasource specifies the location of the database being used
+// This should be changed to the url of the hosted database in production
+
 datasource db {
   provider = "postgresql"
   url      = "postgresql://nickbenson@localhost:5432/echodecks_web"
@@ -6,6 +9,11 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+// This model defines in prisma terms the type declared
+// in the GraphQL schema.
+// Note that mutations and queries don't need to be 
+// defined here.
 
 model Deck {
   id Int @id @default(autoincrement())

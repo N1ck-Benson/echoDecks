@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 
 function Options(props) {
+  // Note: Extract these lists to their own json files.
   const languageList = [
     "Bulgarian",
     "Czech",
@@ -66,9 +67,11 @@ function Options(props) {
 
   const { deckName, setDeckName, setLanguages, setOptionsOpen } = props;
 
+  // Default source and destination languages.
   const [src, setSrc] = useState("Spanish");
   const [dst, setDst] = useState("English");
 
+  // Update languages to abbreviations of the user's input.
   const updateLanguages = () => {
     const chosenLanguages = {
       src: langList[languageList.indexOf(src)],

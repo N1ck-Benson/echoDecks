@@ -17,7 +17,19 @@ import getExamples from "../linguee-api";
 import "../styles/AddDeck.css";
 import { gql, useMutation } from "@apollo/client";
 
+// Note: the term 'lemma' needs changing.
+// In this component and others it refers to the words or phrases the
+// user adds to a deck, which are in turn used to generate flashcards.
+// Lemmas are 'root' forms of a word, but the Linguee API can actually
+// handle any form.
+// Ideally the flashcards will find the root of the user's word and make
+// flashcards for multiple forms off that root, but not yet...
+
 const AddDeck = () => {
+  // Constructor function for initial list to display.
+  // There is always a 'last lemma', which is blank,
+  // ready for further user input. This is not included
+  // in the 'check' or 'post' requests.
   const buildLemmaList = () => {
     return [
       {
@@ -62,7 +74,10 @@ const AddDeck = () => {
     return JSON.stringify(reorderedExamples);
   };
 
+  // Reach Router method for routing without a <Link>
   const navigate = useNavigate();
+
+  // GraphQL schema for the post mutation
   const POST_DECK_MUTATION = gql`
     mutation PostDeck(
       $title: String!
@@ -83,6 +98,8 @@ const AddDeck = () => {
     }
   `;
 
+  // Adds a new lemma to the lemmas array and
+  // pushes a new blank input to be displayed.
   const handleChange = ({ target }) => {
     const { value } = target;
     const id = parseInt(target.id);
@@ -102,6 +119,8 @@ const AddDeck = () => {
     setLemmas(updatedLemmas);
   };
 
+  // Hits the Linguee Proxy API to find examples and translations
+  // for the user's vocab. Currently doesn't display errors.
   const checkLemmas = () => {
     if (examples.length) {
       console.log("Examples were cleared before re-checking");
@@ -129,6 +148,7 @@ const AddDeck = () => {
     });
   };
 
+  // Renders a 'Go!' button if all lemmas have been validated.
   useEffect(() => {
     if (
       lemmas.every((lemma) => {
@@ -141,6 +161,7 @@ const AddDeck = () => {
     }
   });
 
+  // This is Apollo Client's way of sending the GraphQL mutation.
   const [postDeck] = useMutation(POST_DECK_MUTATION, {
     variables: {
       title: deckName,
@@ -157,6 +178,7 @@ const AddDeck = () => {
     });
   };
 
+  // Renders options screen first.
   if (optionsOpen) {
     return (
       <main className="add-deck-main">
@@ -172,6 +194,7 @@ const AddDeck = () => {
     );
   }
 
+  // Renders vocab input fields when options are selected.
   return (
     <main className="add-deck-main">
       <Typography variant="h6" className="add-decks-heading">

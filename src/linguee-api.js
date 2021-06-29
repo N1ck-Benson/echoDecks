@@ -1,8 +1,15 @@
 import axios from "axios";
 
+// The Linguee API is contacted *before* the echoDecks API
+// creates the flashcards.
+// This request is used to confirm the existence of examples and
+// translations for the given vocab, and egs and translations are stored for
+// posting to the echoDecks server.
+// NOTE: error messages are handled but not displayed to the user yet.
+
 const getExamples = (lemma, languages) => {
-  // Allow CORS extension in use in development
-  // -> for production, a proxy server will be required to prevent CORS errors
+  // "Allow CORS" extension needs to be used in development.
+  // For production, a proxy server will be required to prevent CORS errors
   const baseUrl = "https://linguee-for-echodecks.herokuapp.com/api/v2/";
   const lemmaForUrl = lemma.includes(" ") ? lemma : lemma.replace(/\s/g, "%20");
   const { src, dst } = languages;

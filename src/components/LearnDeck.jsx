@@ -12,6 +12,13 @@ import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import "../styles/LearnDeck.css";
 
+// User can:
+// 1. Mark an example as learned.
+// 2. Mark all examples of one lemma as learned.
+// 3. Flip the card to see the translation of the example.
+// 4. Send the card 'to the back' (end of the array),
+// so that it will come up again.
+
 const LearnDeck = (props) => {
   const idForReq = parseFloat(props.deckId);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +26,8 @@ const LearnDeck = (props) => {
   const [flashcards, setFlashcards] = useState(null);
   const [cardsToLearn, setCardsToLearn] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+
+  // GraphQL schema.
   const GET_DECK_QUERY = gql`
     query getDeck {
       deckById (id: ${idForReq}) {
@@ -31,8 +40,11 @@ const LearnDeck = (props) => {
     }
   `;
 
+  // useQuery should only run once, to prevent repeat API
+  // calls on new renders.
   const { loading, data } = useQuery(GET_DECK_QUERY);
 
+  // Flashcards stored in db are JSON format, parsed here.
   useEffect(() => {
     if (!loading) {
       const updatedFlashcards = JSON.parse(data.deckById[0].flashcards).filter(
@@ -45,6 +57,9 @@ const LearnDeck = (props) => {
     }
   }, [loading, data]);
 
+  // Handles the four buttons below the flashcard.
+  // cardsToLearn is the only array that's updated
+  // on user input.
   const handleClick = (event) => {
     const { id } = event.target;
 
@@ -75,6 +90,7 @@ const LearnDeck = (props) => {
 
   if (isLoading) return <CircularProgress color="primary" />;
 
+  // Screen to show when all cards are marked as learned.
   if (!cardsToLearn.length) {
     return (
       <main className="learn-deck-main">

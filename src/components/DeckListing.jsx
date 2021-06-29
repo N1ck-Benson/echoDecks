@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Link } from "@reach/router";
 import "../styles/ViewDecks.css";
 
+// Note: src and dst are included on props for future inclusion,
+// either as flag icons or just a verbal caption.
 const DeckListing = (props) => {
   const { id, title, createdAt, src, dst, isLearned } = props;
   const date = new Date(parseInt(createdAt)).toLocaleDateString();
@@ -14,6 +16,8 @@ const DeckListing = (props) => {
   const handleClose = (event) => {
     setAnchorEl(null);
   };
+
+  // Note: schema is written for this, just need to write a useMutation() here.
   const deleteDeck = () => {
     console.log("User clicked 'delete deck'");
   };
