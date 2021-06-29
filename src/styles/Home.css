@@ -38,7 +38,7 @@
   grid-row: 3/4;
   display: grid;
   justify-items: left;
-  max-height: 30vh;
+  max-height: 45vh;
   overflow: scroll;
 }
 
