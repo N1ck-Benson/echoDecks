@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://nickbenson@localhost:5432/echodecks_web"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
