@@ -5,6 +5,10 @@
 }
 
 /* Within view-decks-main */
+.isLoading {
+  padding: 10vw;
+}
+
 .view-decks-heading {
   grid-row: 1/2;
   padding: 3vh 5vw 1vh 5vw;

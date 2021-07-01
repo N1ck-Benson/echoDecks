@@ -39,7 +39,12 @@ function ViewDecks() {
     }
   }, [loading, data]);
 
-  if (isLoading) return <CircularProgress color="primary" />;
+  if (isLoading)
+    return (
+      <div className="isLoading">
+        <CircularProgress color="primary" />
+      </div>
+    );
 
   return (
     <main className="view-decks-main">
