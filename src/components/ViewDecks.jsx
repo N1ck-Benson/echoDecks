@@ -46,7 +46,7 @@ function ViewDecks() {
       <Typography variant="h6" className="view-decks-heading">
         My Decks
       </Typography>
-      {decks ? (
+      {decks.length ? (
         <section className="view-decks-list">
           {decks.map((deck, index) => {
             return (
