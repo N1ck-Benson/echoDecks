@@ -1,9 +1,10 @@
 import { Paper, MenuItem, Menu } from "@material-ui/core";
 import { CheckCircleOutline, MoreHoriz } from "@material-ui/icons";
-import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
+import BlockIcon from "@material-ui/icons/Block";
 import { useState } from "react";
-import { Link } from "@reach/router";
+import { useNavigate } from "@reach/router";
 import { gql, useMutation } from "@apollo/client";
+import UpdateAlert from "./UpdateAlert";
 import "../styles/ViewDecks.css";
 
 // Note: src and dst are included on props for future inclusion,
@@ -12,7 +13,9 @@ const DeckListing = (props) => {
   const { id, title, createdAt, src, dst, isLearned } = props;
   const date = new Date(parseInt(createdAt)).toLocaleDateString();
   const [isDeleted, setIsDeleted] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -30,12 +33,23 @@ const DeckListing = (props) => {
 
   const [deleteById, { loading }] = useMutation(DELETE_MUTATION);
 
-  // Note: schema is written for this, just need to write a useMutation() here.
+  const handleLearn = () => {
+    if (!isLearned) {
+      navigate(`/learn-deck/${id}`);
+    } else {
+      return setAlertOpen(true);
+    }
+  };
+
   const handleDelete = () => {
     deleteById(id).then(() => {
       setIsDeleted(true);
     });
   };
+
+  if (alertOpen) {
+    return <UpdateAlert id={id} setAlertOpen={setAlertOpen} />;
+  }
 
   return (
     <div className="view-card-stack">
@@ -62,9 +76,13 @@ const DeckListing = (props) => {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>
-              <Link className="Link" to={`/learn-deck/${id}`}>
+              <button
+                type="button"
+                className="button-wrapper"
+                onClick={handleLearn}
+              >
                 Learn Deck
-              </Link>
+              </button>
             </MenuItem>
             <MenuItem onClick={handleClose}>
               <button
@@ -81,7 +99,7 @@ const DeckListing = (props) => {
       ) : (
         <Paper className="view-top-card" elevation={3}>
           <p className="deck-title">{title} was deleted</p>
-          <CancelOutlinedIcon />
+          <BlockIcon color="secondary" />
         </Paper>
       )}
       <Paper className="view-middle-card" elevation={5}></Paper>

@@ -9,7 +9,7 @@ import { ChevronRight, Done, DoneAll, SwapHoriz } from "@material-ui/icons";
 import CheckCircleTwoToneIcon from "@material-ui/icons/CheckCircleTwoTone";
 import { Link } from "@reach/router";
 import { useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import "../styles/LearnDeck.css";
 
 // User can:
@@ -40,9 +40,19 @@ const LearnDeck = (props) => {
     }
   `;
 
+  const UPDATE_DECK_MUTATION = gql`
+    mutation updateById {
+      updateDeck(id: ${idForReq}, isLearned: true) {
+        id
+      }
+    }
+  `;
+
   // useQuery should only run once, to prevent repeat API
   // calls on new renders.
   const { loading, data } = useQuery(GET_DECK_QUERY);
+
+  const [updateById] = useMutation(UPDATE_DECK_MUTATION);
 
   // Flashcards stored in db are JSON format, parsed here.
   useEffect(() => {
@@ -56,6 +66,12 @@ const LearnDeck = (props) => {
       setCardsToLearn(updatedFlashcards);
     }
   }, [loading, data]);
+
+  useEffect(() => {
+    if (!isLoading && !cardsToLearn.length) {
+      updateById();
+    }
+  }, [cardsToLearn]);
 
   // Handles the four buttons below the flashcard.
   // cardsToLearn is the only array that's updated
@@ -88,7 +104,12 @@ const LearnDeck = (props) => {
     }
   };
 
-  if (isLoading) return <CircularProgress color="primary" />;
+  if (isLoading)
+    return (
+      <div className="isLoading">
+        <CircularProgress color="primary" />
+      </div>
+    );
 
   // Screen to show when all cards are marked as learned.
   if (!cardsToLearn.length) {

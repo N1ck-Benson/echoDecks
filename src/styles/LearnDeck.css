@@ -4,11 +4,16 @@
   min-width: 250px;
 }
 
+.isLoading {
+  padding: 10vw;
+}
+
 /* Within main */
 .deck-complete {
   grid-row: 2;
   display: flex;
-  justify-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   margin: 2vh 0 2vh 0;
   width: 85vw;

@@ -1,0 +1,27 @@
+.alert {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 260px;
+  max-width: 260px;
+  height: 25%;
+  background-color: whitesmoke;
+  border-radius: 4px;
+  margin: 5px;
+  border: 7px solid whitesmoke;
+}
+
+.alert-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-self: center;
+  width: 160px;
+  height: min-content;
+  color: #3f51b5;
+  border-radius: 4px;
+}
+
+.isLoading {
+  padding: 10vw;
+}
