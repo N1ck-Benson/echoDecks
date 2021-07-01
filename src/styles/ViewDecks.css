@@ -110,5 +110,5 @@
 
 .Link {
   text-decoration: none;
-  color: black;
+  color: inherit;
 }
